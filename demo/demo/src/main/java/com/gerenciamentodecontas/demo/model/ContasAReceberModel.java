@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "contas_receber")
-public class ContasReceberModel implements Serializable {
+public class ContasAReceberModel implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
     private Long id;

@@ -9,7 +9,6 @@ import org.hibernate.validator.constraints.br.CPF;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.Email;
@@ -47,6 +46,6 @@ public class UsuarioModel implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<ContasReceberModel> contasReceberModel = new ArrayList<>();
+    private List<ContasAReceberModel> contasReceberModel = new ArrayList<>();
 
 }
