@@ -1,4 +1,5 @@
 package com.gerenciamentodecontas.demo.Service;
+import com.gerenciamentodecontas.demo.Enum.Status;
 import com.gerenciamentodecontas.demo.model.ContasAPagarModel;
 import com.gerenciamentodecontas.demo.model.Request.AlterarStatusPagamentoRequest;
 import com.gerenciamentodecontas.demo.model.Response.ContasAPagarResponse;
@@ -29,6 +30,14 @@ public class ContasAPagarService {
         }
         return contasAPagarRepository.save(contasAPagarModel);
     }
+
+    public ContasAPagarModel alterar(ContasAPagarModel contasAPagarModel) {
+        if (contasAPagarModel.getStatus().equals(Status.PAGO)) {
+            LocalDateTime dataAtual = LocalDateTime.now();
+            contasAPagarModel.setDataDePagamento(dataAtual);
+        }
+        return contasAPagarRepository.save(contasAPagarModel);
+    }
     public List<ContasAPagarResponse> exibirTodosRegistrosDePagamento() {
 
         List<ContasAPagarResponse> contasAPagarResposta = new ArrayList<>();
@@ -48,7 +57,7 @@ public class ContasAPagarService {
     }
 
     public ContasAPagarModel alterarRegistrosDePagamento(AlterarStatusPagamentoRequest alterarStatusPagamentoRequest, Long id) {
-        ContasAPagarModel contasAPagar = contasAPagarRepository.findById(id).get(); // Transforma em um objeto comum
+        ContasAPagarModel contasAPagar = contasAPagarRepository.findById(id).get();
         contasAPagar.setStatus(alterarStatusPagamentoRequest.getStatus());
         contasAPagar.setDataDePagamento(LocalDateTime.now());
 

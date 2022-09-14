@@ -1,37 +1,38 @@
 package com.gerenciamentodecontas.demo.model;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Validated
 @Entity
 @Table(name = "enderecos")
 public class EnderecoModel implements Serializable {
     @Id
-    @Column(name = "id", nullable = false)
-    private Long id;
-    @Column(name = "logradouro_endereco",length = 100,nullable = false)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long codigo;
+
+    @Column
     private String logradouro;
 
-    @Column(name = "bairro_endereco", length = 100, nullable = false)
+    @Column
     private String bairro;
 
-    @Column(name = "cep_endereco", length = 100, nullable = false)
+    @Column
     private String cep;
 
-    @Column(name = "ponto_de_referencia_endereco", length = 100, nullable = false)
-    private String pontoReferencia;
+    @Column
+    private String pontoDeReferencia;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
-    private UsuarioModel usuario;
+    @JoinColumn(name = "usuario_id", referencedColumnName = "codigo")
+    private UsuarioModel usuario_id;
+
+    @ManyToOne
+    @JoinColumn(name = "cidade_id", referencedColumnName = "codigo")
+    private CidadeModel cidade_id;
 }

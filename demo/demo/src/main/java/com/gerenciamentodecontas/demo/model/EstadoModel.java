@@ -1,33 +1,31 @@
 package com.gerenciamentodecontas.demo.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "estados")
 public class EstadoModel implements Serializable {
     @Id
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long codigo;
 
-    @Column(name = "uf_estado", length = 5, nullable = false)
-    private String uf;
-
-    @Column(name = "nome_estado", length = 50, nullable = false)
+    @Column
     private String nomeEstado;
 
+    @Column
+    private String uf;
+
     @JsonIgnore
-    @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL)
-    private List<CidadeModel> cidade = new ArrayList<>();
+    @OneToMany(mappedBy = "estado_id", cascade = CascadeType.ALL)
+    private List<CidadeModel> cidade_id;
+
 }

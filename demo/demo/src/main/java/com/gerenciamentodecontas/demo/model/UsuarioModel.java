@@ -1,51 +1,49 @@
 package com.gerenciamentodecontas.demo.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.validator.constraints.br.CPF;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.Email;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+
+@Data
 @Entity
-@Table(name = "usuarios")
+@Table(name = "usuario")
+@NoArgsConstructor
 public class UsuarioModel implements Serializable {
+
     @Id
-    @Column(name = "id", nullable = false)
-    private Long id;
-    @Column(name = "nome_usuario", length = 50, nullable = false)
-    private String nomeUsuario;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long codigo;
 
-    @Column(name = "data_de_nascimento", length = 15, nullable = false)
-    private LocalDate dataDeNascimento;
-
-    @Column(name = "email_usuario", length = 30, nullable = false)
-    @Email(message = "Erro, email inválido")
-    @NotBlank(message = "Erro, e-mail não informado")
-    private String email;
-
-    @Column(name = "cpf_usuario", length = 14, nullable = false)
-    @CPF(message = "Cpf inválido")
-    @NotBlank(message = "Erro, cpf não informado")
+    @Column(nullable = false)
     private String cpf;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "usuario",cascade = CascadeType.ALL)
-    private List<EnderecoModel> enderecoModel = new ArrayList<>();
+    @Column(nullable = false)
+    private String email;
 
+    @Column(nullable = false)
+    private LocalDate dataNascimento;
+
+    @Column(nullable = false)
+    private String nomeUsuario;
+
+    @JsonIgnore //1
+    @OneToMany(mappedBy = "usuario_id", cascade = CascadeType.ALL)
+    private List<EnderecoModel> endereco_id;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<ContasAReceberModel> contasReceberModel = new ArrayList<>();
+    @OneToMany(mappedBy = "usuario_id", cascade = CascadeType.ALL)
+    private List<ContasAReceberModel> contas_id;
+
+    public UsuarioModel(String nomeUsuario, LocalDate dataNascimento, String email, String cpf) {
+        this.nomeUsuario = nomeUsuario;
+        this.dataNascimento = dataNascimento;
+        this.email = email;
+        this.cpf = cpf;
+    }
 
 }
